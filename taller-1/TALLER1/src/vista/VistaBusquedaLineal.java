@@ -9,11 +9,10 @@ import java.awt.event.ActionListener;
 
 public class VistaBusquedaLineal extends JFrame {
     private ControladorBusquedaLineal controlador;
-    private DefaultListModel<Integer> modeloLista;
-    private JList<Integer> listaNumeros;
+    private DefaultListModel<Double> modeloLista;
+    private JList<Double> listaNumeros;
     private JTextField campoNumero;
     private JTextField campoBuscar;
-    private JLabel lblResultado;
 
     public VistaBusquedaLineal() {
         controlador = new ControladorBusquedaLineal();
@@ -21,7 +20,6 @@ public class VistaBusquedaLineal extends JFrame {
         listaNumeros = new JList<>(modeloLista);
         campoNumero = new JTextField(10);
         campoBuscar = new JTextField(10);
-        lblResultado = new JLabel("");
 
         setTitle("Búsqueda Secuencial");
         setSize(400, 300);
@@ -47,20 +45,26 @@ public class VistaBusquedaLineal extends JFrame {
         panelBuscar.add(btnBuscar);
         add(panelBuscar);
 
+        // Botón para reiniciar la lista
+        JButton btnReiniciar = new JButton("Ingresar nueva lista");
+        add(btnReiniciar);
+
         // Etiqueta para mostrar resultado
+        JLabel lblResultado = new JLabel("");
         add(lblResultado);
 
         // Acción del botón "Agregar"
         btnAgregar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int numero = Integer.parseInt(campoNumero.getText());
+                    double numero = Double.parseDouble(campoNumero.getText());
                     boolean agregado = controlador.agregarNumero(numero);
+
                     if (agregado) {
-                        actualizarLista(); // Mantener lista ordenada
-                        campoNumero.setText(""); // Limpiar campo
+                        actualizarLista();
+                        campoNumero.setText(""); // Limpiar el campo
                     } else {
-                        JOptionPane.showMessageDialog(null, "El número ya existe en la lista.");
+                        JOptionPane.showMessageDialog(null, "El número ya está en la lista.");
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Ingrese un número válido.");
@@ -72,10 +76,10 @@ public class VistaBusquedaLineal extends JFrame {
         btnBuscar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int objetivo = Integer.parseInt(campoBuscar.getText());
+                    double objetivo = Double.parseDouble(campoBuscar.getText());
                     int resultado = controlador.buscarNumero(objetivo);
                     if (resultado != -1) {
-                        lblResultado.setText("Número encontrado en posición: " + (resultado+1));
+                        lblResultado.setText("Número encontrado en posición: " + resultado);
                     } else {
                         lblResultado.setText("Número NO encontrado.");
                     }
@@ -85,20 +89,30 @@ public class VistaBusquedaLineal extends JFrame {
             }
         });
 
+        // Acción del botón "Reiniciar lista"
+        btnReiniciar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                controlador.reiniciarLista();
+                modeloLista.clear();
+                lblResultado.setText("");
+                JOptionPane.showMessageDialog(null, "Lista reiniciada.");
+            }
+        });
+
         setVisible(true);
     }
 
-    // Método para actualizar la lista visual ordenada
+    // Método para actualizar la lista en la interfaz gráfica
     private void actualizarLista() {
         modeloLista.clear();
-        String datos = controlador.obtenerDatos().replaceAll("[\\[\\]]", ""); // Elimina corchetes
-        if (!datos.isEmpty()) { // Verifica que la lista no esté vacía
-            for (String numStr : datos.split(", ")) {
+        String datos = controlador.obtenerDatos().replaceAll("[\\[\\]]", ""); // Eliminar corchetes
+        if (!datos.isEmpty()) { // Verificar que no esté vacío
+            String[] numeros = datos.split(", ");
+            for (String num : numeros) {
                 try {
-                    int num = Integer.parseInt(numStr);
-                    modeloLista.addElement(num);
+                    modeloLista.addElement(Double.parseDouble(num));
                 } catch (NumberFormatException e) {
-                    System.out.println("Error al convertir: " + numStr);
+                    System.out.println("Error al convertir: " + num);
                 }
             }
         }

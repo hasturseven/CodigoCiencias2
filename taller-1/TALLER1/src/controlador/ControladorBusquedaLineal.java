@@ -9,18 +9,23 @@ public class ControladorBusquedaLineal {
         this.modelo = new ModeloBusquedaLineal();
     }
 
-    // Método para agregar número con validación de duplicados
-    public boolean agregarNumero(int numero) {
+    // Agregar número sin repetir
+    public boolean agregarNumero(double numero) {
         return modelo.agregarNumero(numero);
     }
 
-    // Método para buscar un número
-    public int buscarNumero(int objetivo) {
+    // Buscar número
+    public int buscarNumero(double objetivo) {
         return modelo.buscar(objetivo);
     }
 
-    // Método para obtener los datos almacenados
+    // Obtener la lista de números en String
     public String obtenerDatos() {
         return modelo.getDatos().toString();
+    }
+
+    // Reiniciar lista
+    public void reiniciarLista() {
+        modelo.reiniciarLista();
     }
 }

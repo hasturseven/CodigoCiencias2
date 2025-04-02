@@ -5,34 +5,39 @@ import java.util.Collections;
 import java.util.List;
 
 public class ModeloBusquedaLineal {
-    private List<Integer> datos;
+    private List<Double> datos;
 
     public ModeloBusquedaLineal() {
         this.datos = new ArrayList<>();
     }
 
-    // Método para agregar un número sin duplicados y mantener orden
-    public boolean agregarNumero(int numero) {
-        if (!datos.contains(numero)) { // Verifica que no exista
+    // Método para agregar números sin permitir repetidos
+    public boolean agregarNumero(double numero) {
+        if (!datos.contains(numero)) { // Verifica que no esté repetido
             datos.add(numero);
-            Collections.sort(datos); // Ordena la lista automáticamente
-            return true; // Indica que se agregó con éxito
+            Collections.sort(datos); // Mantiene la lista ordenada automáticamente
+            return true; // Indica que el número se agregó
         }
         return false; // Indica que el número ya existía
     }
 
-    // Método de búsqueda secuencial
-    public int buscar(int objetivo) {
+    // Método para realizar la búsqueda secuencial
+    public int buscar(double objetivo) {
         for (int i = 0; i < datos.size(); i++) {
-            if (datos.get(i) == objetivo) {
-                return i; // Retorna la posición donde se encontró
+            if (datos.get(i).equals(objetivo)) {
+                return i; // Retorna la posición donde se encontró el número
             }
         }
-        return -1; // Si no se encuentra el número
+        return -1; // Retorna -1 si no se encuentra el número
     }
 
-    // Método para obtener la lista actual
-    public List<Integer> getDatos() {
+    // Método para reiniciar la lista
+    public void reiniciarLista() {
+        datos.clear();
+    }
+
+    // Método para obtener todos los datos
+    public List<Double> getDatos() {
         return datos;
     }
 }

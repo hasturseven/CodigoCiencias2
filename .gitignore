@@ -1,0 +1,25 @@
+# Archivos de entorno de los IDEs
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+nbproject/
+
+# Archivos de compilación
+*.class
+bin/
+build/
+out/
+
+# Dependencias externas
+target/
+.gradle/
+*.jar
+*.war
+*.ear
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
